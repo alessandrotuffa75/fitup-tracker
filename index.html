@@ -43,6 +43,8 @@
     font-weight:600; line-height:1.25;
   }
   .tab b{display:block; font-size:11.5px; color:var(--txt)}
+  .tab small{display:block; font-size:9.5px; color:var(--mut); margin-top:2px}
+  .tab.active small{color:inherit}
   .tab.active{background:var(--lime); border-color:var(--lime); color:#20240a}
   .tab.active b{color:#141b00}
   main{padding:14px 14px 0; max-width:560px; margin:0 auto}
@@ -271,7 +273,7 @@ function renderTabs(){
   PROGRAM.forEach((d,i)=>{
     const b=document.createElement('button');
     b.className='tab'+(i===curDay?' active':'');
-    b.innerHTML=`${d.short}<b>${d.name}</b>`;
+    b.innerHTML=`${d.short}<b>${d.name}</b><small>${state.lastD[d.id]?('\u2713 '+fmtDate(state.lastD[d.id])):'\u2014'}</small>`;
     b.onclick=()=>{curDay=i; render();};
     tabs.appendChild(b);
   });
@@ -392,21 +394,41 @@ function tick(){
 function updTimer(){ tdisp.textContent=fmtT(Math.max(0,tLeft));
   tbar.style.width=(100*(REST-tLeft)/REST)+'%';
   tdisp.classList.toggle('running',!!tRun); }
-function startTimer(){ stopTimer(); tLeft=REST; updTimer(); tRun=setInterval(tick,1000); }
+function startTimer(){ ensureAudio(); keepAwake(); stopTimer(); tLeft=REST; updTimer(); tRun=setInterval(tick,1000); }
 function stopTimer(){ if(tRun){clearInterval(tRun); tRun=null;} }
 $('#tstart').onclick=()=>startTimer();
 $('#treset').onclick=()=>{ stopTimer(); tLeft=REST; updTimer(); };
+let actx=null;
+function ensureAudio(){
+  try{
+    if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended') actx.resume();
+    // sblocca l'audio su iOS con un frammento muto
+    const b=actx.createBuffer(1,1,22050), src=actx.createBufferSource();
+    src.buffer=b; src.connect(actx.destination); src.start(0);
+  }catch(e){}
+}
+let wlock=null;
+async function keepAwake(){
+  try{
+    if('wakeLock' in navigator){
+      if(wlock){ try{ await wlock.release(); }catch(e){} }
+      wlock=await navigator.wakeLock.request('screen');
+    }
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') keepAwake(); });
 function beep(){
   try{
-    const ctx=new (window.AudioContext||window.webkitAudioContext)();
-    [0,.25,.5].forEach(t=>{
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value=880; g.gain.setValueAtTime(.3,ctx.currentTime+t);
-      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.2);
-      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.22);
+    ensureAudio(); if(!actx) return;
+    [0,.28,.56,.84].forEach(t=>{
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.connect(g); g.connect(actx.destination);
+      o.frequency.value=980; g.gain.setValueAtTime(.6,actx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+t+.24);
+      o.start(actx.currentTime+t); o.stop(actx.currentTime+t+.26);
     });
-    if(navigator.vibrate) navigator.vibrate([200,100,200]);
+    if(navigator.vibrate) navigator.vibrate([300,120,300,120,300]);
   }catch(e){}
 }
 
@@ -441,6 +463,12 @@ $('#btnReset').onclick=()=>{
 /* ---------- START ---------- */
 document.getElementById('subline').textContent =
   'Scheda massa · ' + new Date().toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+(function(){
+  let bi=-1, bt=0;
+  PROGRAM.forEach((d,i)=>{ const t=state.lastD[d.id]?Date.parse(state.lastD[d.id]):0; if(t>bt){bt=t; bi=i;} });
+  if(bi>=0) curDay=(bi+1)%PROGRAM.length;
+})();
+keepAwake();
 updTimer(); render();
 </script>
 </body>
