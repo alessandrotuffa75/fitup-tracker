@@ -59,6 +59,12 @@
   .district small{color:var(--mut); font-weight:600; letter-spacing:0; text-transform:none}
   .exname{font-size:15.5px; font-weight:700; line-height:1.3}
   .exmeta{color:var(--mut); font-size:12px; margin-top:3px}
+  .exhead{display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap}
+  .exhead>div{flex:1; min-width:55%}
+  .mimg{width:72px; height:72px; object-fit:cover; border-radius:12px;
+    border:1px solid var(--line); flex:none; cursor:pointer}
+  .mimg.big{width:100%; height:auto; max-height:360px; margin-top:4px}
+  .imghint{font-size:10.5px; color:var(--mut); margin-top:2px; text-align:right}
   .chips{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap}
   .chip{background:var(--card2); border:1px solid var(--line); color:var(--txt);
     font-size:12px; font-weight:600; border-radius:8px; padding:4px 8px}
@@ -179,48 +185,48 @@
 const REST = 90; // secondi di recupero tra le serie
 const PROGRAM = [
  { id:'d1', short:'Giorno 1', name:'Petto · Tricipiti', focus:'petto · tricipiti · addome', ex:[
-   {id:'d1e1', m:'Petto', n:'Chest press verticale', a:'Vertical Chest Press FIT EVO', s:4, r:'8–10', inc:2.5, note:'Esercizio guida. Gomiti mai oltre il piano del busto: spalla protetta.'},
-   {id:'d1e2', m:'Petto', n:'Chest press inclinata a leve', a:'Super Inclined Chest Press', s:3, r:'8–10', inc:2.5, note:'Petto alto, discesa controllata 2–3".'},
-   {id:'d1e3', m:'Petto', n:'Croci alla pectoral machine', a:'Multi Pectoral FIT EVO', s:3, r:'12–15', inc:2.5, note:'Allungamento dietro senza forzare.'},
-   {id:'d1e4', m:'Tricipiti', n:'Pushdown al cavo con corda', a:'Torre cavi', s:3, r:'10–12', inc:2.5, note:'Gomiti fermi ai fianchi.'},
-   {id:'d1e5', m:'Tricipiti', n:'French press con EZ', a:'Panca piana + EZ', s:3, r:'10–12', inc:2.5, note:'Bilanciere dietro la fronte, gomiti stretti.'},
-   {id:'d1e6', m:'Tricipiti', n:'Estensioni sopra la testa al cavo', a:'Torre cavi / dual pulley', s:3, r:'10–12', inc:2.5, note:'Massimo allungamento dietro la testa.'},
-   {id:'d1e7', m:'Addome', n:'Crunch alla macchina', a:'Abdominal Crunch', s:3, r:'12–15', inc:2.5, note:'Espira chiudendo.'},
-   {id:'d1e8', m:'Addome', n:'Crunch ai cavi in ginocchio', a:'Torre cavi + corda', s:3, r:'12–15', inc:2.5, note:'Chiudi con il busto, bacino fermo.'},
-   {id:'d1e9', m:'Addome', n:'Leg raise alla power tower', a:'Power tower', s:3, r:'10–15', inc:1, note:'Senza dondolare. Peso = eventuale zavorra.'},
+   {id:'d1e1', img:'m-chestpress-vert', m:'Petto', n:'Chest press verticale', a:'Vertical Chest Press FIT EVO', s:4, r:'8–10', inc:2.5, note:'Esercizio guida. Gomiti mai oltre il piano del busto: spalla protetta.'},
+   {id:'d1e2', img:'m-chestpress-incl', m:'Petto', n:'Chest press inclinata a leve', a:'Super Inclined Chest Press', s:3, r:'8–10', inc:2.5, note:'Petto alto, discesa controllata 2–3".'},
+   {id:'d1e3', img:'m-pec-machine', m:'Petto', n:'Croci alla pectoral machine', a:'Multi Pectoral FIT EVO', s:3, r:'12–15', inc:2.5, note:'Allungamento dietro senza forzare.'},
+   {id:'d1e4', img:'m-torre-cavi', m:'Tricipiti', n:'Pushdown al cavo con corda', a:'Torre cavi', s:3, r:'10–12', inc:2.5, note:'Gomiti fermi ai fianchi.'},
+   {id:'d1e5', img:'m-panca-ez', m:'Tricipiti', n:'French press con EZ', a:'Panca piana + EZ', s:3, r:'10–12', inc:2.5, note:'Bilanciere dietro la fronte, gomiti stretti.'},
+   {id:'d1e6', img:'m-torre-cavi', m:'Tricipiti', n:'Estensioni sopra la testa al cavo', a:'Torre cavi / dual pulley', s:3, r:'10–12', inc:2.5, note:'Massimo allungamento dietro la testa.'},
+   {id:'d1e7', img:'m-crunch-machine', m:'Addome', n:'Crunch alla macchina', a:'Abdominal Crunch', s:3, r:'12–15', inc:2.5, note:'Espira chiudendo.'},
+   {id:'d1e8', img:'m-torre-cavi', m:'Addome', n:'Crunch ai cavi in ginocchio', a:'Torre cavi + corda', s:3, r:'12–15', inc:2.5, note:'Chiudi con il busto, bacino fermo.'},
+   {id:'d1e9', img:'m-powertower', m:'Addome', n:'Leg raise alla power tower', a:'Power tower', s:3, r:'10–15', inc:1, note:'Senza dondolare. Peso = eventuale zavorra.'},
  ]},
  { id:'d2', short:'Giorno 2', name:'Gambe · Dorso A', focus:'gambe · dorso · polpacci', ex:[
-   {id:'d2e1', m:'Gambe', n:'Pendulum squat', a:'Pendulum Squat Panatta', s:4, r:'8–10', inc:5, note:'Esercizio guida. Niente carico sulle spalle; scendi solo fin dove le ginocchia non danno fastidio.'},
-   {id:'d2e2', m:'Gambe', n:'Leg press 45°', a:'Super Leg Press', s:3, r:'10–12', inc:5, note:'Bacino sempre in appoggio.'},
-   {id:'d2e3', m:'Gambe', n:'Leg curl seduto', a:'Seated Leg Curl FIT EVO', s:3, r:'10–12', inc:2.5, note:'Femorali: controlla il ritorno.'},
-   {id:'d2e4', m:'Dorso', n:'Lat machine avanti presa larga', a:'Lat Pulldown Twin', s:4, r:'8–10', inc:2.5, note:'Esercizio guida. Tira al petto alto, senza slancio.'},
-   {id:'d2e5', m:'Dorso', n:'Rematore alla macchina', a:'Super Rowing', s:3, r:'8–10', inc:2.5, note:'Petto in appoggio, stringi le scapole.'},
-   {id:'d2e6', m:'Dorso', n:'Pulley basso', a:'Pulley / torre cavi', s:3, r:'10–12', inc:2.5, note:'Tira all\'ombelico, busto fermo.'},
-   {id:'d2e7', m:'Polpacci', n:'Calf in piedi', a:'Standing calf', s:3, r:'10–12', inc:2.5, note:'Stretch sotto, fermo 1" in alto.'},
-   {id:'d2e8', m:'Polpacci', n:'Calf seduto', a:'Super Seated Calf', s:3, r:'12–15', inc:2.5, note:'Escursione completa, niente rimbalzi.'},
-   {id:'d2e9', m:'Polpacci', n:'Calf alla leg press', a:'Super Leg Press', s:3, r:'10–12', inc:5, note:'Avampiede sul bordo pedana.'},
+   {id:'d2e1', img:'m-pendulum', m:'Gambe', n:'Pendulum squat', a:'Pendulum Squat Panatta', s:4, r:'8–10', inc:5, note:'Esercizio guida. Niente carico sulle spalle; scendi solo fin dove le ginocchia non danno fastidio.'},
+   {id:'d2e2', img:'m-legpress45', m:'Gambe', n:'Leg press 45°', a:'Super Leg Press', s:3, r:'10–12', inc:5, note:'Bacino sempre in appoggio.'},
+   {id:'d2e3', img:'m-legcurl-sed', m:'Gambe', n:'Leg curl seduto', a:'Seated Leg Curl FIT EVO', s:3, r:'10–12', inc:2.5, note:'Femorali: controlla il ritorno.'},
+   {id:'d2e4', img:'m-latpulldown', m:'Dorso', n:'Lat machine avanti presa larga', a:'Lat Pulldown Twin', s:4, r:'8–10', inc:2.5, note:'Esercizio guida. Tira al petto alto, senza slancio.'},
+   {id:'d2e5', img:'m-superrowing', m:'Dorso', n:'Rematore alla macchina', a:'Super Rowing', s:3, r:'8–10', inc:2.5, note:'Petto in appoggio, stringi le scapole.'},
+   {id:'d2e6', img:'m-pulley', m:'Dorso', n:'Pulley basso', a:'Pulley / torre cavi', s:3, r:'10–12', inc:2.5, note:'Tira all\'ombelico, busto fermo.'},
+   {id:'d2e7', img:'m-calf-piedi', m:'Polpacci', n:'Calf in piedi', a:'Standing calf', s:3, r:'10–12', inc:2.5, note:'Stretch sotto, fermo 1" in alto.'},
+   {id:'d2e8', img:'m-calf-seduto', m:'Polpacci', n:'Calf seduto', a:'Super Seated Calf', s:3, r:'12–15', inc:2.5, note:'Escursione completa, niente rimbalzi.'},
+   {id:'d2e9', img:'m-legpress45', m:'Polpacci', n:'Calf alla leg press', a:'Super Leg Press', s:3, r:'10–12', inc:5, note:'Avampiede sul bordo pedana.'},
  ]},
- { id:'d3', short:'Giorno 3', name:'Petto · Spalle · Bicipiti', focus:'petto · spalle · bicipiti', ex:[
-   {id:'d3e1', m:'Petto', n:'Spinte manubri su panca 30°', a:'Manubri + panca inclinata', s:3, r:'8–10', inc:1, note:'Esercizio guida B. ROM comodo per la spalla, scapole addotte.'},
-   {id:'d3e2', m:'Petto', n:'Seated dip machine', a:'Seated Dip plate loaded', s:3, r:'8–10', inc:2.5, note:'Petto basso. Se la spalla dà fastidio → chest press verticale.'},
-   {id:'d3e3', m:'Petto', n:'Croci ai cavi', a:'Dual adjustable pulley', s:3, r:'12–15', inc:2.5, note:'Tensione continua, chiudi davanti al petto.'},
-   {id:'d3e4', m:'Spalle', n:'Shoulder press alla macchina', a:'Shoulder Press FIT EVO', s:3, r:'8–10', inc:2.5, note:'Se la spalla dà fastidio, riduci il ROM.'},
-   {id:'d3e5', m:'Spalle', n:'Alzate laterali con manubri', a:'Manubri', s:3, r:'12–15', inc:1, note:'Fino al parallelo, niente slancio.'},
-   {id:'d3e6', m:'Spalle', n:'Face pull al cavo', a:'Dual pulley + corda', s:3, r:'12–15', inc:2.5, note:'Corda verso la fronte: deltoide posteriore e cuffia.'},
-   {id:'d3e7', m:'Bicipiti', n:'Curl alla panca Scott (EZ)', a:'Panca Scott + EZ', s:3, r:'10–12', inc:2.5, note:'Non estendere del tutto il gomito.'},
-   {id:'d3e8', m:'Bicipiti', n:'Curl manubri su panca 60°', a:'Manubri + panca inclinata', s:3, r:'10–12', inc:1, note:'Massimo allungamento del bicipite.'},
-   {id:'d3e9', m:'Bicipiti', n:'Curl al cavo basso', a:'Torre cavi / ercolina', s:3, r:'12–15', inc:2.5, note:'Tensione continua, gomiti fermi.'},
+ { id:'d3', short:'Giorno 3', name:'Petto · Spalle', focus:'petto · spalle · addome', ex:[
+   {id:'d3e1', img:'m-panca-manubri', m:'Petto', n:'Spinte manubri su panca 30°', a:'Manubri + panca inclinata', s:3, r:'8–10', inc:1, note:'Esercizio guida B. ROM comodo per la spalla, scapole addotte.'},
+   {id:'d3e2', img:'m-seateddip', m:'Petto', n:'Seated dip machine', a:'Seated Dip plate loaded', s:3, r:'8–10', inc:2.5, note:'Petto basso. Se la spalla dà fastidio → chest press verticale.'},
+   {id:'d3e3', img:'m-dualpulley', m:'Petto', n:'Croci ai cavi', a:'Dual adjustable pulley', s:3, r:'12–15', inc:2.5, note:'Tensione continua, chiudi davanti al petto.'},
+   {id:'d3e4', img:'m-shoulderpress', m:'Spalle', n:'Shoulder press alla macchina', a:'Shoulder Press FIT EVO', s:3, r:'8–10', inc:2.5, note:'Se la spalla dà fastidio, riduci il ROM.'},
+   {id:'d3e5', img:'m-panca-manubri', m:'Spalle', n:'Alzate laterali con manubri', a:'Manubri', s:3, r:'12–15', inc:1, note:'Fino al parallelo, niente slancio.'},
+   {id:'d3e6', img:'m-dualpulley', m:'Spalle', n:'Face pull al cavo', a:'Dual pulley + corda', s:3, r:'12–15', inc:2.5, note:'Corda verso la fronte: deltoide posteriore e cuffia.'},
+   {id:'d3e7', img:'m-crunch-machine', m:'Addome', n:'Crunch alla macchina', a:'Abdominal Crunch', s:3, r:'12–15', inc:2.5, note:'Espira chiudendo, progressione di carico come gli altri.'},
+   {id:'d3e8', img:'m-powertower', m:'Addome', n:'Leg raise alla power tower', a:'Power tower', s:3, r:'10–15', inc:1, note:'Ginocchia al petto senza dondolare.'},
+   {id:'d3e9', img:'m-torre-cavi', m:'Addome', n:'Crunch ai cavi in ginocchio', a:'Torre cavi + corda', s:3, r:'12–15', inc:2.5, note:'Chiudi con il busto, bacino fermo.'},
  ]},
- { id:'d4', short:'Giorno 4', name:'Gambe · Dorso B', focus:'gambe · dorso · addome', ex:[
-   {id:'d4e1', m:'Gambe', n:'Hack squat 45°', a:'Hack Squat Panatta', s:4, r:'8–10', inc:5, note:'Esercizio guida. Schiena in appoggio; profondità solo senza fastidio alle ginocchia.'},
-   {id:'d4e2', m:'Gambe', n:'Leg extension', a:'Leg Extension FIT EVO', s:3, r:'12–15', inc:2.5, note:'Fermo 1" in contrazione; carico leggero se il ginocchio protesta.'},
-   {id:'d4e3', m:'Gambe', n:'Leg curl sdraiato', a:'Leg Curl FIT EVO', s:3, r:'10–12', inc:2.5, note:'Femorali: bacino a contatto del cuscino. Extra: Master Glutes se hai tempo.'},
-   {id:'d4e4', m:'Dorso', n:'Pulldown a leve', a:'Super Pulldown plate loaded', s:4, r:'8–10', inc:2.5, note:'Esercizio guida B. Gomiti verso il fianco, senza slancio.'},
-   {id:'d4e5', m:'Dorso', n:'Rematore basso a leve', a:'Super Low Row', s:3, r:'8–10', inc:2.5, note:'Petto in appoggio, spinta dei gomiti indietro.'},
-   {id:'d4e6', m:'Dorso', n:'Rematore un braccio con manubrio', a:'Manubrio + panca', s:3, r:'10–12', inc:1, note:'Schiena neutra, tira verso il fianco.'},
-   {id:'d4e7', m:'Addome', n:'Crunch alla macchina', a:'Abdominal Crunch', s:3, r:'12–15', inc:2.5, note:'Espira chiudendo, aumenta il carico come per gli altri esercizi.'},
-   {id:'d4e8', m:'Addome', n:'Leg raise alla power tower', a:'Power tower', s:3, r:'10–15', inc:1, note:'Ginocchia al petto senza dondolare.'},
-   {id:'d4e9', m:'Addome', n:'Crunch ai cavi in ginocchio', a:'Torre cavi + corda', s:3, r:'12–15', inc:2.5, note:'Extra: 2–3 serie di calf se resta tempo.'},
+ { id:'d4', short:'Giorno 4', name:'Gambe · Dorso B', focus:'gambe · dorso · bicipiti', ex:[
+   {id:'d4e1', img:'m-hacksquat', m:'Gambe', n:'Hack squat 45°', a:'Hack Squat Panatta', s:4, r:'8–10', inc:5, note:'Esercizio guida. Schiena in appoggio; profondità solo senza fastidio alle ginocchia.'},
+   {id:'d4e2', img:'m-legext', m:'Gambe', n:'Leg extension', a:'Leg Extension FIT EVO', s:3, r:'12–15', inc:2.5, note:'Fermo 1" in contrazione; carico leggero se il ginocchio protesta.'},
+   {id:'d4e3', img:'m-legcurl-sdra', m:'Gambe', n:'Leg curl sdraiato', a:'Leg Curl FIT EVO', s:3, r:'10–12', inc:2.5, note:'Femorali: bacino a contatto del cuscino. Extra: Master Glutes se hai tempo.'},
+   {id:'d4e4', img:'m-superpulldown', m:'Dorso', n:'Pulldown a leve', a:'Super Pulldown plate loaded', s:4, r:'8–10', inc:2.5, note:'Esercizio guida B. Gomiti verso il fianco, senza slancio.'},
+   {id:'d4e5', img:'m-lowrow', m:'Dorso', n:'Rematore basso a leve', a:'Super Low Row', s:3, r:'8–10', inc:2.5, note:'Petto in appoggio, spinta dei gomiti indietro.'},
+   {id:'d4e6', img:'m-panca-manubri', m:'Dorso', n:'Rematore un braccio con manubrio', a:'Manubrio + panca', s:3, r:'10–12', inc:1, note:'Schiena neutra, tira verso il fianco.'},
+   {id:'d4e7', img:'m-scott', m:'Bicipiti', n:'Curl alla panca Scott (EZ)', a:'Panca Scott + EZ', s:3, r:'10–12', inc:2.5, note:'Non estendere del tutto il gomito.'},
+   {id:'d4e8', img:'m-panca-manubri', m:'Bicipiti', n:'Curl manubri su panca 60°', a:'Manubri + panca inclinata', s:3, r:'10–12', inc:1, note:'Massimo allungamento del bicipite.'},
+   {id:'d4e9', img:'m-torre-cavi', m:'Bicipiti', n:'Curl al cavo basso', a:'Torre cavi / ercolina', s:3, r:'12–15', inc:2.5, note:'Tensione continua. Extra: 2–3 serie di calf se resta tempo.'},
  ]},
 ];
 
@@ -289,8 +295,13 @@ function renderDay(){
     const card=document.createElement('div'); card.className='card';
     const lastW = state.lastW[ex.id];
     card.innerHTML=`
-      <div class="exname">${ex.n}</div>
-      <div class="exmeta">${ex.a}</div>
+      <div class="exhead">
+        <div>
+          <div class="exname">${ex.n}</div>
+          <div class="exmeta">${ex.a}</div>
+        </div>
+        ${ex.img?`<img class="mimg" src="gymimg/${ex.img}.jpg" alt="Foto macchina" loading="lazy" onerror="this.style.display='none'">`:''}
+      </div>
       <div class="chips">
         <span class="chip lime">${ex.s} × ${ex.r}</span>
         <span class="chip">rec 90"</span>
@@ -310,6 +321,8 @@ function renderDay(){
         <button class="topbtn${state.top[ex.id]?' on':''}">${state.top[ex.id]?'✓ Range chiuso — la prossima volta +'+fmtKg(ex.inc)+' kg':'Hai chiuso tutte le serie al tetto delle rip.?'}</button>
       </div>`;
     // events
+    const mimg=card.querySelector('.mimg');
+    if(mimg) mimg.onclick=()=>mimg.classList.toggle('big');
     const winput=card.querySelector('.wval');
     winput.addEventListener('change',()=>{ state.w[ex.id]=parseKg(winput.value);
       winput.value=fmtKg(state.w[ex.id]); saveState(); });
