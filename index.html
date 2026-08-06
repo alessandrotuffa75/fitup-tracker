@@ -6,6 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#141414">
+<link rel="apple-touch-icon" href="/fitup-tracker/logo-icon.png">
+<link rel="icon" href="/fitup-tracker/logo-icon.png">
 <title>FitUp Tracker — Scheda Massa</title>
 <style>
   :root{
@@ -30,6 +32,7 @@
   .brand h1{font-size:19px; font-weight:800; letter-spacing:.3px}
   .brand h1 span{color:var(--lime)}
   .brand small{display:block; color:var(--mut); font-size:11px; font-weight:400; margin-top:2px}
+  .logo{width:40px;height:40px;border-radius:50%;flex:none;border:1px solid var(--line)}
   .gear{background:var(--card); border:1px solid var(--line); color:var(--txt);
     border-radius:12px; padding:8px 12px; font-size:16px}
   .tabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none}
@@ -142,7 +145,7 @@
 <body>
 <header>
   <div class="brand">
-    <h1>FITUP <span>TRACKER</span><small id="subline">Scheda massa · 4 giorni</small></h1>
+    <div style="display:flex;align-items:center;gap:10px"><img class="logo" src="/fitup-tracker/logo-small.jpg" alt="FitUp"><h1>FITUP <span>TRACKER</span><small id="subline">Scheda massa · 4 giorni</small></h1></div>
     <button class="gear" id="gearBtn" aria-label="Impostazioni">⚙︎</button>
   </div>
   <div class="tabs" id="tabs"></div>
@@ -181,6 +184,7 @@
 
 <script>
 'use strict';
+const IMGDATA = {};
 /* ---------- PROGRAMMA ---------- */
 const REST = 90; // secondi di recupero tra le serie
 const PROGRAM = [
@@ -300,7 +304,7 @@ function renderDay(){
           <div class="exname">${ex.n}</div>
           <div class="exmeta">${ex.a}</div>
         </div>
-        ${ex.img?`<img class="mimg" src="gymimg/${ex.img}.jpg" alt="Foto macchina" loading="lazy" onerror="this.style.display='none'">`:''}
+        ${ex.img?`<img class="mimg" src="${IMGDATA[ex.img]||('gymimg/'+ex.img+'.jpg')}" alt="Foto macchina" loading="lazy" onerror="this.style.display='none'">`:''}
       </div>
       <div class="chips">
         <span class="chip lime">${ex.s} × ${ex.r}</span>
